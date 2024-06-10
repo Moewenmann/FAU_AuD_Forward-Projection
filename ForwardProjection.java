@@ -21,11 +21,16 @@ public class ForwardProjection implements PlugInFilter {
 		// loop img rot
 		for (int angle = 0; angle < 180; angle += 10) {
 			ImageProcessor rotatedIp = ip.duplicate();
+			rotatedIp.setInterpolationMethod(ImageProcessor.BILINEAR);
 			rotatedIp = rotatedIp.rotate(angle);
 
 			// img rot
 			ImagePlus rotatedImage = new ImagePlus("Rot img at " + angle + " ... ", rotatedIp);
 			rotatedImage.show();
+
+			// exit img, w hide
+			Thread.sleep(1000);
+			rotatedImage.close();
 		}
 	}
 }
