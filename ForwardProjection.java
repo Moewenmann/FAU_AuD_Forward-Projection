@@ -13,9 +13,19 @@ public class ForwardProjection implements PlugInFilter {
 		int height = ip.getHeight();
 		double[] xValues = new double[width];
 
-		for (int i = 0; i > width; i++) {
+		// loop xVal
+		for (int i = 0; i < width; i++) {
 			xValues[i] = i;
 		}
 
+		// loop img rot
+		for (int angle = 0; angle < 180; angle += 10) {
+			ImageProcessor rotatedIp = ip.duplicate();
+			rotatedIp = rotatedIp.rotate(angle);
+
+			// img rot
+			ImagePlus rotatedImage = new ImagePlus("Rot img at " + angle + " ... ", rotatedIp);
+			rotatedImage.show();
+		}
 	}
 }
