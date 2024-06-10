@@ -2,8 +2,13 @@ import ij.ImagePlus;
 import ij.process.ImageProcessor;
 import ij.plugin.filter.PlugInFilter;
 import ij.gui.Plot;
+import ij.gui.WaitForUserDialog;
 
 public class ForwardProjection implements PlugInFilter {
+
+	// rotation setting
+	private static final int ROT_STEP = 10;
+	private static final int ROT_MAX = 180;
 
 	// return DOES_8G - specify plugin works w 8-bit grayscale img
 	@Override
@@ -23,7 +28,7 @@ public class ForwardProjection implements PlugInFilter {
 		}
 
 		// loop img rot
-		for (int angle = 0; angle < 180; angle += 10) {
+		for (int angle = 0; angle < ROT_MAX; angle += ROT_STEP) {
 			ImageProcessor rotatedIp = ip.duplicate();
 			rotatedIp.setInterpolationMethod(ImageProcessor.BILINEAR);
 			rotatedIp = rotatedIp.rotate(angle);
@@ -45,7 +50,8 @@ public class ForwardProjection implements PlugInFilter {
 			plot.show();
 
 			// exit img, w hide
-			Thread.sleep(1000);
+			WaitForUserDialog waitForUserDialog = new WaitForUserDialog("Continue", "Press to continue ...");
+			waitForUserDialog.show();
 			rotatedImage.close();
 			plot.close();
 		}
